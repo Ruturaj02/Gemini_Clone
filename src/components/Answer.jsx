@@ -1,9 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Answer = (ans,key) => {
-    console.log(ans);
+  const [heading,setHeading] = useState(false);
+  useEffect(()=>{
+    if(checkHeading(ans)){
+      setHeading(true);
+    }
+
+  },[])
+
+   function checkHeading(str){
+    return /^(\*)(\*)(.*)\*$/.test(str)
+}
+    
   return (
-    <div>Answer</div>
+    <>
+      {heading ? <span className='pt-2 text-lg block'>{ans}</span> : <span>{ans}</span>}
+    </>
   )
 }
 

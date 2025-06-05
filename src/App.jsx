@@ -35,8 +35,16 @@ function App() {
         </div>
         <div className="col-span-4 p-10 ">
           <div className="container h-140 overflow-scroll text-white">
-            <div className="text-white">{result}
-              <Answer/>
+            <div className="text-white">
+              <ul>
+                {/* {result} */}
+              {
+                result && result.map((item,index)=>(
+                  <li className="text-left p-10"> <Answer  ans={item} key={index} /></li>
+                ))
+              }
+              </ul>
+             
             </div>
           </div>
           <div className="bg-zinc-800 w-1/2 p-1 pr-5 text-white m-auto rounded-4xl border border-white flex h-16">
