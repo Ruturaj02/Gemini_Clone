@@ -40,7 +40,7 @@ function App() {
                 {/* {result} */}
               {
                 result && result.map((item,index)=>(
-                  <li className="text-left p-10"> <Answer  ans={item} key={index} /></li>
+                  <li key={index + Math.random()} className="text-left p-10"> <Answer  ans={item} totalResult = {result.length} index={index} /></li>
                 ))
               }
               </ul>

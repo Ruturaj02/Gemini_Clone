@@ -15,7 +15,7 @@ const Answer = (ans,key) => {
     
   return (
     <>
-      {heading ? <span className='pt-2 text-lg block'>{ans}</span> : <span>{ans}</span>}
+      {heading ? <span className='pt-2 text-lg block'>{ans}</span> : <span className=''>{ans}</span>}
     </>
   )
 }
