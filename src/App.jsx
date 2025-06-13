@@ -24,9 +24,11 @@ function App() {
     let dataString=response.candidates[0].content.parts[0].text;
     dataString = dataString.split("* ");
     dataString = dataString.map((item) => item.trim())
-    console.log(dataString);
-    setResult(dataString);
+    // console.log(dataString);
+    setResult([...result, {type:"q" ,text:question},{type:'a',text:dataString}]);
   };
+  console.log(result);
+  
   return (
     <>
       <div className="grid grid-cols-5 h-screen text-center">
@@ -36,14 +38,31 @@ function App() {
         <div className="col-span-4 p-10 ">
           <div className="container h-140 overflow-scroll text-white">
             <div className="text-white">
-              <ul>
-                {/* {result} */}
+              <ul>Add commentMore actions
+              {/* {result} */}
+            {
+              result.map((item,index)=>(
+                item.type=='q'? 
+                  <li key={index+Math.random()} className='text-left p-1'><Answer ans={item.text} totalResult={1} index={index} /></li>
+                  :item.text.map((ansItem,ansIndex)=>(
+                  <li key={ansIndex+Math.random()} className='text-left p-1'><Answer ans={ansItem} totalResult={item.length} index={ansIndex} /></li>
+
+                  ))
+               
+              ))
+            }
+            </ul>
+            {/* <ul>
+            
               {
-                result && result.map((item,index)=>(
-                  <li key={index + Math.random()} className="text-left p-10"> <Answer  ans={item} totalResult = {result.length} index={index} /></li>
+                result && result.map((item, index) => (
+                  <li key={index} className='text-left p-1'><Answer ans={item} totalResult={result.length} index={index} /></li>
+                  <li key={index+Math.random()} className='text-left p-1'><Answer ans={item} totalResult={result.length} index={index} /></li>
                 ))
               }
-              </ul>
+
+            </ul>
+            </ul> */}
              
             </div>
           </div>
