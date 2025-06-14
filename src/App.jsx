@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState ,useEffect ,useId } from "react";
 import "./App.css";
 import { URL } from "./constants";
 import Answer from "./components/Answer";
@@ -6,16 +6,16 @@ import Answer from "./components/Answer";
 function App() {
   const [question, setQuestion] = useState("");
   const [result, setResult] = useState([]);
-  const [recentHistory, setRecentHistory] = useState(JSON.parse(localStorage.getItem('history')))
+const [recentHistory, setRecentHistory] = useState(JSON.parse(localStorage.getItem('history')));
+  const [selectedHistory,setSelectedHistory]=useState('')
 
 
-  const payLoad = {
-    contents: [
-      {
-        parts: [{ text: question }],
-      },
-    ],
-  };
+const payloadData=question ? question:selectedHistoryAdd 
+  const payload = {
+    "contents": [{
+      "parts": [{ "text": payloadData }]
+    }]
+  }
 
   const askQuestion = async () => {
 
@@ -48,6 +48,12 @@ function App() {
     localStorage.clear();
     setRecentHistory([])
   }
+
+    useEffect(()=>{
+    console.log(selectedHistory);
+    askQuestion();
+    
+  },[selectedHistory])
   
   return (
     <>
@@ -69,7 +75,7 @@ function App() {
                 item.type=='q'? 
                   <div key={index+Math.random()} className={item.type == 'q' ? 'flex justify-end' : ''} />
                   :item.text.map((ansItem,ansIndex)=>(
-                  <li key={ansIndex+Math.random()} className='text-left p-1'><Answer ans={ansItem} totalResult={item.length} index={ansIndex} /></li>
+                    <li onClick={()=>setSelectedHistory(item)} className='pl-5 px-5 truncate text-zinc-400 cursor-pointer hover:bg-zinc-700 hover:text-zinc-200' >
 
                   ))
                    </div>
