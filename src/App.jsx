@@ -5,7 +5,9 @@ import Answer from "./components/Answer";
 
 function App() {
   const [question, setQuestion] = useState("");
-  const [result, setResult] = useState("");
+  const [result, setResult] = useState([]);
+  const [recentHistory, setRecentHistory] = useState(JSON.parse(localStorage.getItem('history')))
+
 
   const payLoad = {
     contents: [
@@ -16,6 +18,19 @@ function App() {
   };
 
   const askQuestion = async () => {
+
+       if (localStorage.getItem('history')){
+
+      let history = JSON.parse(localStorage.getItem('history'))
+      history = [question, ...history]
+      localStorage.setItem('history', JSON.stringify(history))
+      setRecentHistory(history)
+    } else {
+      localStorage.setItem('history', JSON.stringify([question]))
+      setRecentHistory([question])
+    }
+
+
     let response = await fetch(URL, {
       method: "POST",
       body: JSON.stringify(payLoad),
@@ -25,15 +40,21 @@ function App() {
     dataString = dataString.split("* ");
     dataString = dataString.map((item) => item.trim())
     // console.log(dataString);
-    setResult([...result, {type:"q" ,text:question},{type:'a',text:dataString}]);
+    setResult([...result, { type: 'q', text: question }, { type: 'a', text: dataString }])
   };
-  console.log(result);
+  console.log(recentHistory);
   
   return (
     <>
       <div className="grid grid-cols-5 h-screen text-center">
         <div className="col-span-1 bg-zinc-800">
-          <h1>Hello</h1>
+          <ul>Add commentMore actions
+          {
+            recentHistory && recentHistory.map((item)=>(
+              <li>{item}</li>
+            ))
+          }
+        </ul>
         </div>
         <div className="col-span-4 p-10 ">
           <div className="container h-140 overflow-scroll text-white">
@@ -43,13 +64,15 @@ function App() {
             {
               result.map((item,index)=>(
                 item.type=='q'? 
-                  <li key={index+Math.random()} className='text-left p-1'><Answer ans={item.text} totalResult={1} index={index} /></li>
+                  <div key={index+Math.random()} className={item.type == 'q' ? 'flex justify-end' : ''} />
                   :item.text.map((ansItem,ansIndex)=>(
                   <li key={ansIndex+Math.random()} className='text-left p-1'><Answer ans={ansItem} totalResult={item.length} index={ansIndex} /></li>
 
                   ))
                
               ))
+              </div>
+              
             }
             </ul>
             {/* <ul>
