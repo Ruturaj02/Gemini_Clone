@@ -1,13 +1,14 @@
 import { useState ,useEffect ,useId, useRef } from "react";
 import "./App.css";
 import { URL } from "./constants";
-import Answer from "./components/Answer";
+import RecentSearch from './components/RecentSearch';
+import QuestionAnswer from './components/QuestionAnswer';
 
 function App() {
   const [question, setQuestion] = useState("");
   const [result, setResult] = useState([]);
 const [recentHistory, setRecentHistory] = useState(JSON.parse(localStorage.getItem('history')));
- const [selectedHistory, setSelectedHistory] = useState('')Add commentMore actions
+ const [selectedHistory, setSelectedHistory] = useState('')
   const scrollToAns = useRef();
   const [loader, setLoader] = useState(false);
 
@@ -105,8 +106,10 @@ const [recentHistory, setRecentHistory] = useState(JSON.parse(localStorage.getIt
 
                   ))
                    </div>
+                   
                
               ))
+               <QuestionAnswer key={index}  item={item} index={index}/>
              
               
             }
