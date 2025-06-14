@@ -47,12 +47,23 @@ const [recentHistory, setRecentHistory] = useState(JSON.parse(localStorage.getIt
     // console.log(dataString);
     setResult([...result, { type: 'q', text: question ? question : selectedHistory }, { type: 'a', text: dataString }])
   };
-  console.log(recentHistory);
+  // console.log(recentHistory);
 
     const clearHistory = () => {
     localStorage.clear();
     setRecentHistory([])
   }
+
+    const [darkMode,setDarkMode]=useState('dark');
+  useEffect(()=>{
+    console.log(darkMode);
+    if(darkMode=='dark'){
+      document.documentElement.classList.add('dark')
+    }else{
+      document.documentElement.classList.remove('dark')
+
+    }
+  },[darkMode])
 
    setTimeout(() => {
       scrollToAns.current.scrollTop = scrollToAns.current.scrollHeight;
@@ -69,6 +80,14 @@ const [recentHistory, setRecentHistory] = useState(JSON.parse(localStorage.getIt
   
   return (
     <>
+     <div className={darkMode=='dark'?'dark':'light'}>Add commentMore actions
+    <div className='grid grid-cols-5 h-screen text-center'>
+      <select onChange={(event)=>setDarkMode(event.target.value)} className=' fixed text-white bottom-0 p-5'>
+        <option value="dark" >Dark</option>
+        <option value="light" >Light</option>
+Add commentMore actions
+      </select>
+      </div>
       <div className="grid grid-cols-5 h-screen text-center">
         <div className="col-span-1 bg-zinc-800">
             <div className='col-span-1 bg-zinc-800 pt-3'>
