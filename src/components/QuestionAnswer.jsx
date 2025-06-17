@@ -1,4 +1,4 @@
-import Answer from './Answer';
+import Answer from "./Answer";
 const QuestionAnswer=({item,index})=>{
     return(
         <>

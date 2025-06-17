@@ -1,13 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
+import { checkHeading, replaceHeadingStarts } from "../helper";
 import SyntaxHighlighter from "react-syntax-highlighter/dist/cjs/light";
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+
 import ReactMarkdown from 'react-markdown'
 
-const Answer = (ans,totalResult,index,type) => {
-  const [heading,setHeading] = useState(false);
-  const [answer, setAnswer] = useState(ans);
+const Answer = ({ ans, totalResult, index,type }) => {
 
-  nst renderer = {Add commentMore actions
+    const [heading, setHeading] = useState(false);
+    const [answer, setAnswer] = useState(ans);
+ 
+
+    useEffect(() => {
+        if (checkHeading(ans)) {
+            setHeading(true);
+            setAnswer(replaceHeadingStarts(ans))
+        }
+
+    }, [])
+
+    const renderer = {
         code({ node, inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || '');
           return !inline && match ? (
@@ -25,28 +37,20 @@ const Answer = (ans,totalResult,index,type) => {
           );
         },
       };
-  useEffect(()=>{
-    if(checkHeading(ans)){
-      setHeading(true);
-    }
 
-  },[])
-
-   function checkHeading(str){
-    return /^(\*)(\*)(.*)\*$/.test(str)
-}
-    
-  return (
-    <>
-       {
+    return (
+        <>
+            {
                 index == 0 && totalResult > 1 ? <span className="pt-2 text-xl block text-white">{answer}</span> :
                     heading ? <span className={"pt-2 text-lg block text-white"} >{answer}</span>
-                        :<span className={type=='q'?'pl-1':'pl-5'} >Add commentMore actions
+                        : <span className={type=='q'?'pl-1':'pl-5'} >
                             <ReactMarkdown components={renderer} >{answer}</ReactMarkdown>
                         </span>
             }
-    </>
-  )
+
+
+        </>
+    )
 }
 
-export default Answer;
+export default Answer
